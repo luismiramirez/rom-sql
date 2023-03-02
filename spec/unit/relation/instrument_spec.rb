@@ -45,25 +45,25 @@ RSpec.describe ROM::SQL::Relation, "#instrument", :sqlite do
     relation.to_a
 
     expect(notifications.logs)
-      .to include([:sql, {name: :sqlite, query: relation.dataset.sql}])
+      .to include(["sql.rom", {name: :sqlite, query: relation.dataset.sql}])
   end
 
   it "instruments methods that return a single tuple" do
     relation.first
 
     expect(notifications.logs)
-      .to include([:sql, {name: :sqlite, query: relation.limit(1).dataset.sql}])
+      .to include(["sql.rom", {name: :sqlite, query: relation.limit(1).dataset.sql}])
 
     relation.last
 
     expect(notifications.logs)
-      .to include([:sql, {name: :sqlite, query: relation.reverse.limit(1).dataset.sql}])
+      .to include(["sql.rom", {name: :sqlite, query: relation.reverse.limit(1).dataset.sql}])
   end
 
   it "instruments aggregation methods" do
     relation.count
 
     expect(notifications.logs)
-      .to include([:sql, {name: :sqlite, query: "SELECT count(*) AS 'count' FROM `users` LIMIT 1"}])
+      .to include(["sql.rom", {name: :sqlite, query: "SELECT count(*) AS 'count' FROM `users` LIMIT 1"}])
   end
 end

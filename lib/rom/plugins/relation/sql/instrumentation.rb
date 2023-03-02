@@ -70,7 +70,7 @@ module ROM
               define_method(:rom_instrumentation?) { true }
 
               define_method(:log_connection_yield) do |*args, &block|
-                notifications.instrument(:sql, name: name, query: args[0]) do
+                notifications.instrument("sql.rom", name: name, query: args[0]) do
                   super(*args, &block)
                 end
               end
